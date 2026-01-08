@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Just a Question 💙</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;             
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+    
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .heart {
+      font-size: 40px;
+      animation: pulse 1.5s infinite;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #555;
+    }
+    .footer1 p{
+        font-size: 1rem;
+    }
+
+    .buttons {
+      margin-top: 25px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 22px;
+      border: none;
+      border-radius: 25px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .yes {
+      background: #4caf50;
+      color: white;
+    }
+
+    .no {
+      background: #f44336;
+      color: white;
+    }
+
+    .message {
+      margin-top: 20px;
+      display: none;
+      font-size: 16px;
+    }
+
+    /* Instagram section */
+    .instagram {
+      margin-top: 20px;
+      display: none;
+      animation: fadeIn 1s ease;
+    }
+
+    .instagram img {
+      width: 45px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .instagram img:hover {
+      transform: scale(1.1);
+    }
+
+    footer p {
+      font-size: 12px;
+      color: #777;
+      margin-top: 20px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="heart">💙</div>
+    <h1>Hello! Disgusting People 😊</h1>
+
+    <p>
+      I've seen you around and wanted to say this honestly and respectfully. <br>
+      I like you and I'd love to get to know you better.
+    </p>
+
+    <div class="buttons">
+      <button class="yes" onclick="sendResponse('Yes')">Yes</button>
+      <button class="no" onclick="sendResponse('No')">No</button>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <!-- Instagram logo (hidden by default) -->
+    <div class="instagram" id="instagram">
+      <p>Let’s connect 💬</p>
+      <a href="https://instagram.com/i.a.msk" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+      </a>
+    </div>
+
+    <footer class="footer1">
+      <p>
+       <b>NOTE:</b> Remember! Whatever in your heart! Pick one of these two buttons. I'll be tracking your 'Yes' or 'No' responses in real-time.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    let clicked = false;
+
+    function sendResponse(choice) {
+      if (clicked) return;
+      clicked = true;
+
+      // Disable both buttons
+      document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+
+      const data = {
+        response: choice,
+        time: new Date().toLocaleString(),
+        device: navigator.userAgent
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbye7O6aPW0v0P_fNwcJvPrwfAmsJVpVMx4qjRsfjTZZX4eF4XtKFBCklacz_YygmcXBDw/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const msg = document.getElementById("message");
+      msg.style.display = "block";
+
+      if (choice === "Yes") {
+        msg.innerHTML = "That made my day 😊💙";
+        document.getElementById("instagram").style.display = "block";
+      } else {
+        msg.innerHTML = "Thank you for being honest 🌸. I respect your feelings and wish you happiness";
+      }
+    }
+  </script>
+</body>
+</html>
